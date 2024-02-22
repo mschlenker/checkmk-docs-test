@@ -2,7 +2,7 @@
 // IGNORE Einstellungs
 include::global_attr.adoc[]
 = Der Piggyback-Mechanismus
-:revdate: 2021-11-19
+:revdate: 2024-02-19
 :title: Der Piggyback-Mechanismus
 :description: Hier erfahren Sie, wie Sie mit {CMK} Monitoring-Daten eines Hosts beim Abfragen eines anderen Hosts huckepack (piggyback) mit übertragen.
 
@@ -118,10 +118,15 @@ Der (Spezial-)Agent schreibt zu jedem Satz von Piggyback-Daten einen Objektnamen
 Im Fall von ESX ist das z.B. der Name der virtuellen Maschine.
 Manche Plugins wie z.B. xref:monitoring_docker#[Docker] haben auch mehrere Möglichkeiten, was als Name verwendet werden soll.
 
+*Hinweis:* Piggyback-Daten von Hosts, deren Namen mit einem Punkt beginnen, werden nicht in {CMK} verarbeitet.
+Dies betrifft z.B. Namen wie `.`, `.hostname` oder `.hostname.domain.com`.
+Um diese Hosts ins Monitoring aufzunehmen, müssen die Host-Namen wie beschrieben geändert werden.
+
 Damit die Zuordnung klappt, muss der Name des passenden Hosts in {CMK} natürlich identisch sein -- auch die Groß-/Kleinschreibung betreffend.
 
 Was aber, wenn die Namen der Objekte in den Piggyback-Daten für das Monitoring ungeeignet oder unerwünscht sind? 
-Dafür gibt es den speziellen xref:wato_rules#[Regelsatz] [.guihint]#Hostname translation for piggybacked hosts#, den Sie im Setup-Menü unter [.guihint]#Setup > Agents > Agent access rules# finden.
+Ungeeignet sind z. B. Namen von Piggyback-Hosts, die nur aus einem Punkt bestehen oder mit einem Punkt beginnen, wie `.myhostname`, da diese in {CMK} nicht verarbeitet werden.
+Für die Umbenennung von Piggyback-Hosts gibt es einen speziellen xref:wato_rules#[Regelsatz] [.guihint]#Hostname translation for piggybacked hosts#, den Sie im Setup-Menü unter [.guihint]#Setup > Agents > Agent access rules# finden.
 
 *Hinweis:* Huckepack-Dateien von Hosts, deren Namen mit einem Punkt beginnen, werden nicht in {CMK} verarbeitet.
 Dies betrifft z.B. Namen wie ".", ".hostname", and ".hostname.domain.com".
@@ -181,7 +186,6 @@ Außerdem legen Sie den Zustand des Services Check_MK fest.
 Insbesondere wenn es immer wieder zu kurzzeitigen Verbindungsunterbrechungen kommen kann, können Sie damit unnötige Warnungen umgehen.
 
 Nachdem Sie die Behandlung der Piggyback-Daten im Allgemeinen festgelegt haben, können Sie unter [.guihint]#Exceptions for piggybacked hosts# mit den beschriebenen Optionen gezielt für einzelne Hosts eine gesonderte Behandlung definieren. 
-
 
 [#technology]
 == Die Technik dahinter
